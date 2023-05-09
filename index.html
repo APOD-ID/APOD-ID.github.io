@@ -3,57 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oliver! rehersal playlists</title>
+    <title>apod not public</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        iframe {
+            margin-top: 20px;
+        }
+        select {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Oliver! Rehersal Helpers</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Song</th>
-                <th>YouTube Playlist</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>All Vids</td>
-                <td>
-                    <iframe width='560' height='315' src='https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUF3sRryAAON9Lm6hG3vzzn6 ' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture' allowfullscreen></iframe>
-                </td>
-            </tr>
-            <tr>
-                <td>Pickpockets!</td>
-                <td>
-                    <iframe width='560' height='315' src='https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUFt4xhFVZSAV1e0km2NyeUQ ' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture' allowfullscreen></iframe>
-                </td>
-            </tr>
-            <tr>
-                <td>I'd Do Anything</td>
-                <td>
-                    <iframe width='560' height='315' src='https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUEjUBHZ3d508XCkqPzheadw ' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture' allowfullscreen></iframe>
-                </td>
-            </tr>
-            <tr>
-                <td>Consider Yourself</td>
-                <td>
-                    <iframe width='560' height='315' src='https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUGgzuRIKvE33ip3RJro5dAk ' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture' allowfullscreen></iframe>
-                </td>
-            </tr>
-            <tr>
-                <td>Fine Life</td>
-                <td>
-                    <iframe width='560' height='315' src='https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUFnDw23wiffiU8EMVuJajXM ' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture' allowfullscreen></iframe>
-                </td>
-            </tr>
-            <tr>
-                <td>Oom Pah Pah</td>
-                <td>
-                    <iframe width='560' height='315' src='https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUGuk5Xc2FesGbHLKWBtAqST ' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture' allowfullscreen></iframe>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="https://docs.google.com/spreadsheets/d/1Ylbde5Fk_OOhTdbBFjKcj1w7B1ndS9e5AtWFGftfn7k/edit?usp=sharing">Google Cheat Sheet</a>
+    <iframe id="playlistPlayer" width="560" height="315" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+
+    <select id="playlistSelect" onchange="playPlaylist()">
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUE6uk5-wInLHVLTD6ctXo5V"">Mate</option>
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUHnZ81CTlFwHV0GqEwFzEIs"">Funeral</option>
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUHMjKD7D6VEfryB8HizSbZy"">Food Glorious</option>
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUFt4xhFVZSAV1e0km2NyeUQ"">Pickpockets!</option>
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUGuk5Xc2FesGbHLKWBtAqST"">Oom Pah Pah</option>
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUGgzuRIKvE33ip3RJro5dAk"">Consider Yourself</option>
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUFnDw23wiffiU8EMVuJajXM"">Fine Life</option>
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUEjUBHZ3d508XCkqPzheadw"">I'd Do Anything</option>
+        <option value=""https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUF3sRryAAON9Lm6hG3vzzn6"">All Videos</option>
+    </select>
+
+    <script>
+        function playPlaylist() {
+            const url = document.getElementById('playlistSelect').value;
+            document.getElementById('playlistPlayer').src = url;
+        }
+    </script>
 </body>
 </html>
