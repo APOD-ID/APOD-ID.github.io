@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Music Page</title>
+    <title>apod not public</title>
     <style>
         html, body {
             height: 100%;
@@ -24,7 +24,17 @@
         .playlist-label {
             margin-right: 10px;
         }
+        .app-toggle-label {
+            display: none;
+        }
+        @media (max-width: 767px) {
+            .app-toggle-label {
+                display: inline-block;
+                margin-left: 10px;
+            }
+        }
     </style>
+
     <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
@@ -37,7 +47,6 @@
     <div class="playlist-container">
         <span class="playlist-label">Select a Playlist:</span>
         <select id="playlistSelect" onchange="playPlaylist()">
-            <option value="">Select a Playlist</option>
             <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUE6uk5-wInLHVLTD6ctXo5V">Mate</option>
             <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUHnZ81CTlFwHV0GqEwFzEIs">Funeral</option>
             <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUHMjKD7D6VEfryB8HizSbZy">Food Glorious</option>
@@ -47,10 +56,14 @@
             <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUFnDw23wiffiU8EMVuJajXM">Fine Life</option>
             <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUEjUBHZ3d508XCkqPzheadw">I'd Do Anything</option>
             <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUF3sRryAAON9Lm6hG3vzzn6">All Videos</option>
-
         </select>
+        <label class="app-toggle-label" for="openInAppToggle">
+            <input type="checkbox" id="openInAppToggle" name="openInAppToggle" class="app-toggle">
+            Open links in YouTube app
+        </label>
     </div>
-    <p><p>If this page does not play on your device, try this <a href="alt.html">alternative</a> 
+
+    <p><p>Your browser may be blocking scripts on this page. If it will not load videos, try this <a href="alt.html">alternative</a> 
 
     <script>
         let player;
@@ -71,10 +84,11 @@
 
         function playPlaylist() {
             const url = document.getElementById('playlistSelect').value;
+            const openInApp = document.getElementById('openInAppToggle').checked;
             if (url) {
                 const videoId = url.match(/embed\/(.*?)\?/)[1];
                 const playlistId = url.match(/list=(.*)/)[1];
-                if (/Mobi|Android/i.test(navigator.userAgent)) {
+                if (openInApp && /Mobi|Android/i.test(navigator.userAgent)) {
                     // Attempt to open the YouTube app for mobile devices
                     window.location.href = `vnd.youtube://playlist?list=${playlistId}`;
                 } else {
