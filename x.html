@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YouTube Playlist Selector</title>
+  <style>
+    /* Style for the wrapper */
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    
+    /* Style for the splash image */
+    #splash-image {
+      width: 560px;
+      height: 315px;
+      background-image: url(media/splash.png);
+      background-size: cover;
+      background-position: center center;
+    }
+    
+    /* Style for the droplist */
+    #playlist-selector {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #f2f2f2;
+      color: #333;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 100%;
+      max-width: 560px;
+      box-sizing: border-box;
+    }
+    
+    /* Style for the iframe container */
+    #iframe-container {
+      width: 100%;
+      max-width: 560px;
+      height: 315px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Wrapper -->
+  <div id="wrapper">
+    <!-- Splash image -->
+    <div id="splash-image"></div>
+    
+    <!-- Playlist selector droplist -->
+    <select id="playlist-selector" onchange="loadPlaylist(this.value)">
+      <option value="">Select a playlist</option>
+      <option value="https://www.youtube.com/playlist?list=PLcuidbIa0f0kjAhd_hy7upu76jB-Jum7z">Playlist 1</option>
+      <option value="https://www.youtube.com/playlist?list=PLcuidbIa0f0m6SjtkQ1-z_6LBOhTjT8DQ">Playlist 2</option>
+      <option value="https://www.youtube.com/playlist?list=PLcuidbIa0f0lW84JB9Z9xOfQXnmg8lCiT">Playlist 3</option>
+    </select>
+    
+    <!-- Viewport for the YouTube playlist -->
+    <div id="iframe-container"></div>
+  </div>
+  
+  <!-- Script for loading the playlist -->
+  <script>
+    function loadPlaylist(url) {
+      // Check if a playlist was selected
+      if (url == "") {
+        document.getElementById("splash-image").style.display = "block";
+        document.getElementById("iframe-container").innerHTML = "";
+      }
+      else {
+        document.getElementById("splash-image").style.display = "none";
+        document.getElementById("iframe-container").innerHTML = "<iframe width='560' height='315' src='" + url + "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>";
+      }
+    }
+  </script>
+</body>
+</html>

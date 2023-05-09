@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Music Playlist</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .playlist-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .playlist-label {
+            margin-right: 10px;
+        }
+
+        .app-toggle-label {
+            display: none;
+        }
+
+        .player-controls {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 767px) {
+            .app-toggle-label {
+                display: inline-block;
+            }
+        }
+    </style>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('playerContainer', {
+                width: '560',
+                height: '315',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // You can add any actions you want to perform when the player is ready
+        }
+
+        function onPlayerStateChange(event) {
+            // You can add any actions you want to perform when the player's state changes
+        }
+    </script>
+</head>
+<body>
+    <h1>not public: Oliver rehersal playlists</h1>
+    <p>This page uses javascript for best experience. If scripts are blocked try this <a href="alt.html">alternative</a><p>
+
+    <div id="playerContainer" style="width: 560px; height: 315px; border: 2px solid #000; position: relative; overflow: hidden;">
+        <iframe id="ytIframe" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+        <div id="splashImage" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('media/splash.png'); background-size: cover; background-position: center;"></div>
+    </div>
+
+
+    <div class="playlist-container">
+        <span class="playlist-label">Select a Playlist:</span>
+        <select id="playlistSelect" onchange="playPlaylist()">
+            <option value="">--</option>
+            <option value="PLL0ch6DEaWUE6uk5-wInLHVLTD6ctXo5V">Mate</option>
+            <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUHnZ81CTlFwHV0GqEwFzEIs">Funeral</option>
+            <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUHMjKD7D6VEfryB8HizSbZy">Food Glorious</option>
+            <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUFt4xhFVZSAV1e0km2NyeUQ">Pickpockets!</option>
+            <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUGuk5Xc2FesGbHLKWBtAqST">Oom Pah Pah</option>
+            <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUGgzuRIKvE33ip3RJro5dAk">Consider Yourself</option>
+            <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUFnDw23wiffiU8EMVuJajXM">Fine Life</option>
+            <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUEjUBHZ3d508XCkqPzheadw">I'd Do Anything</option>
+            <option value="https://www.youtube.com/embed/FIRST_VIDEO_ID_1?list=PLL0ch6DEaWUF3sRryAAON9Lm6hG3vzzn6">All Videos</option>
+        </select>
+        <label class="app-toggle-label" for="openInAppToggle">
+            <input type="checkbox" id="openInAppToggle" name="openInAppToggle" class="app-toggle">
+            Open links in YouTube app
+        </label>
+    </div>
+
+    <div class="player-controls" style="display: none;">
+        <button id="playPauseButton" onclick="togglePlayPause()">Play</button>
+    </div>
+
+    <script>
+        let player;
+        let apiLoaded = false;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('ytIframe', {
+                width: '560',
+                height: '315',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            apiLoaded = true;
+        }
+
+        function onPlayerStateChange(event) {
+            // You can add any actions you want to perform when the player's state changes
+        }
+
+        function playPlaylist() {
+            const playlistId = document.getElementById('playlistSelect').value;
+            const openInApp = document.getElementById('openInAppToggle').checked;
+            if (playlistId && apiLoaded) {
+                if (openInApp && /Mobi|Android/i.test(navigator.userAgent)) {
+                    // Attempt to open the YouTube app for mobile devices
+                    window.location.href = `vnd.youtube://playlist?list=${playlistId}`;
+                } else {
+                    document.getElementById('ytIframe').style.display = 'block';
+                    document.getElementById('splashImage').style.display = 'none';
+                    document.querySelector('.player-controls').style.display = 'block';
+                    player.loadPlaylist({list: playlistId, listType: 'playlist', index: 0});
+                    player.pauseVideo();
+                }
+            }
+        }
+
+        function togglePlayPause() {
+            if (apiLoaded) {
+                const playPauseButton = document.getElementById('playPauseButton');
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                    playPauseButton.innerText = 'Play';
+                } else {
+                    player.playVideo();
+                    playPauseButton.innerText = 'Pause';
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
