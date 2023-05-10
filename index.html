@@ -31,7 +31,7 @@
 		}
 		#progress-bar {
 			width: 100%;
-			height: 5px;
+			height: 10px;
 			background-color: #e0e0e0;
 			position: relative;
 		}
@@ -92,7 +92,16 @@
 			max-width: 640px;
 			box-sizing: border-box;
 		}
-
+	    #scrubber {
+	        width: 9px;
+	        height: 15px;
+	        background-color: #4CAF50;
+	        position: absolute;
+	        top: -2px;
+	        left: -2;
+	        border-radius: 50%;
+	        cursor: pointer;
+	    }
 
 	</style>
 </head>
@@ -121,9 +130,11 @@
 				</div>
 				<div id="player"></div>
 			</div>
-			<div id="progress-bar">
-				<div id="progress"></div>
-			</div>
+<div id="progress-bar">
+    <div id="progress"></div>
+    <div id="scrubber"></div>
+</div>
+
 			<button id="previous">Previous</button>
 			<button id="play-pause">Play</button>
 			<button id="next">Next</button>
@@ -139,7 +150,8 @@
 						playerVars: {
 							'controls': 0,
 							'showinfo': 0,
-							'modestbranding': 1
+							'modestbranding': 1,
+							'rel': 0 // Add this line to suppress related videos
 						},
 						events: {
 							'onReady': onPlayerReady,
@@ -206,17 +218,30 @@
     	}
     }
 
+    // Handle scrubber clicks
+    document.getElementById('progress-bar').addEventListener('click', function (event) {
+        if (player && typeof player.getDuration === 'function' && event.target !== document.getElementById('scrubber')) {
+            var progressBarWidth = this.offsetWidth;
+            var clickPosition = event.offsetX;
+            var newPlaybackPosition = (clickPosition / progressBarWidth) * player.getDuration();
+
+            player.seekTo(newPlaybackPosition, true);
+        }
+    });
+
     function startProgressBarInterval() {
         setInterval(updateProgressBar, 1000)
     }
 
     // Update the progress bar as the video plays
-    function updateProgressBar() {
-    	if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
-    		var progress = (player.getCurrentTime() / player.getDuration()) * 100;
-    		document.getElementById('progress').style.width = progress + '%';
-    	}
+function updateProgressBar() {
+    if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
+        var progress = (player.getCurrentTime() / player.getDuration()) * 100;
+        document.getElementById('progress').style.width = progress + '%';
+        document.getElementById('scrubber').style.left = progress + '%';
     }
+}
+
 
 </script>
 
