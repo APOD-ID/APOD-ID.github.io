@@ -1,172 +1,227 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Custom YouTube Playlist Loader</title>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-  }
-  #wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-  }
-  #player-container {
-      position: relative;
-      width: 640px;
-      height: 360px;
-  }
-  #player {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      width: 100%;
-      height: 100%;
-  }
-  #splash {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      width: 640px;
-      height: 360px;
-      background: url(media/splash_640.png) no-repeat center center;
-      z-index: 1;
-  }
-  #loading-message {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      width: 640px;
-      height: 360px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
-      font-weight: bold;
-      color: #fff;
-      background-color: rgba(0, 0, 0, 0.7);
-  }
+	<meta charset="UTF-8">
+	<title>YouTube Playlist Player</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			text-align: center;
+			background-color: #f8f8f8;
+		}
+		.container {
+			display: inline-block;
+			background-color: #ffffff;
+			padding: 1rem;
+			border-radius: 5px;
+			box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+		}
+		button {
+			background-color: #4CAF50;
+			border: none;
+			color: white;
+			padding: 8px 16px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 4px;
+		}
+		#progress-bar {
+			width: 100%;
+			height: 5px;
+			background-color: #e0e0e0;
+			position: relative;
+		}
+		#progress {
+			width: 0;
+			height: 100%;
+			background-color: #4CAF50;
+			position: absolute;
+		}
+		.player-container {
+			position: relative;
+			display: inline-block;
+		}
 
-  /* Style for the droplist */
-  #playlist-selector-wrapper {
-      margin-top: 20px;
-      font-size: 16px;
-      font-weight: bold;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background-color: #f2f2f2;
-      color: #333;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      width: 100%;
-      max-width: 6400px;
-      box-sizing: border-box;
-  }
-  #playlist-selector {
-      font-size: 16px;
-      font-weight: bold;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background-color: #f2f2f2;
-      color: #333;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      width: 100%;
-      max-width: 640px;
-      box-sizing: border-box;
-  }
-  /* Style for the text info div */
-  #text-info {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 14px;
-      padding: 10px;
-      border-radius: 5px;
-      color: #333;
-      max-width: 560px;
-      box-sizing: border-box;
-  }
-  /* Style for the loading message */
-  .loading-message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-  }
+		#splash {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+		}
 
-</style>
+		#splash img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		#playlist-selector-wrapper {
+			margin-top: 20px;
+			font-size: 16px;
+			font-weight: bold;
+			padding: 8px;
+			border-radius: 5px;
+			border: none;
+			background-color: #4CAF50;
+			color: #333;
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			width: 100%;
+			max-width: 6400px;
+			box-sizing: border-box;
+		}
+		#playlist-select {
+			font-size: 16px;
+			font-weight: bold;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			background-color: #f2f2f2;
+			color: #333;
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			width: 100%;
+			max-width: 640px;
+			box-sizing: border-box;
+		}
+
+
+	</style>
 </head>
 <body>
-    <!-- Text info div -->
+	<h1>not public: Oliver rehersal playlists</h1>
+	<p>This page uses javascript for best experience. If scripts are blocked try this <a href="alt.html">alternative</a><p>
+		<div class="container">
 
-    <!-- Wrapper -->
-    <div id="wrapper">
-        <div id="text-info">
-            <h1>not public: Oliver rehersal playlists</h1>
-            <p>This page uses javascript for best experience. If scripts are blocked try this <a href="alt.html">alternative</a></p>
-        </div>        
-        <div id="player-container">
-            <div id="player"></div>
-            <div id="loading-message">Loading from YouTube...</div>            
-            <div id="splash"></div>
-        </div>
+			<div id="playlist-selector-wrapper">
+				<select id="playlist-select">
+					<option value="">Choose a playlist</option>
+					<option value="PLL0ch6DEaWUE6uk5-wInLHVLTD6ctXo5V">Mate</option>
+					<option value="PLL0ch6DEaWUHnZ81CTlFwHV0GqEwFzEIs">Funeral</option>
+					<option value="PLL0ch6DEaWUHMjKD7D6VEfryB8HizSbZy">Food Glorious</option>
+					<option value="PLL0ch6DEaWUFt4xhFVZSAV1e0km2NyeUQ">Pickpockets!</option>
+					<option value="PLL0ch6DEaWUGuk5Xc2FesGbHLKWBtAqST">Oom Pah Pah</option>
+					<option value="PLL0ch6DEaWUGgzuRIKvE33ip3RJro5dAk">Consider Yourself</option>
+					<option value="PLL0ch6DEaWUFnDw23wiffiU8EMVuJajXM">Fine Life</option>
+					<option value="PLL0ch6DEaWUEjUBHZ3d508XCkqPzheadw">I'd Do Anything</option>
+					<option value="PLL0ch6DEaWUF3sRryAAON9Lm6hG3vzzn6">All Videos</option>
+				</select>
+			</div>
+			<div class="player-container">
+				<div id="splash">
+					<img src="media/splash_640.png" alt="Splash">
+				</div>
+				<div id="player"></div>
+			</div>
+			<div id="progress-bar">
+				<div id="progress"></div>
+			</div>
+			<button id="previous">Previous</button>
+			<button id="play-pause">Play</button>
+			<button id="next">Next</button>
+			<script src="https://www.youtube.com/iframe_api"></script>
+			<script>
+				var player;
 
-        <div id="playlist-selector-wrapper">
-            <select id="playlist-selector">
-              <option value="">Select a Playlist</option>  
-              <option value="PLL0ch6DEaWUE6uk5-wInLHVLTD6ctXo5V">Mate</option>
-              <option value="PLL0ch6DEaWUHnZ81CTlFwHV0GqEwFzEIs">Funeral</option>
-              <option value="PLL0ch6DEaWUHMjKD7D6VEfryB8HizSbZy">Food</option>
-            </select>
-        </div>
-    </div>
+				function createPlayer(playlistId) {
+					player = new YT.Player('player', {
+						height: '360',
+						width: '640',
+						videoId: '',
+						playerVars: {
+							'controls': 0,
+							'showinfo': 0,
+							'modestbranding': 1
+						},
+						events: {
+							'onReady': onPlayerReady,
+							'onStateChange': onPlayerStateChange
+						}
+					});
 
-    <script>
-        var player = document.getElementById('player');
-        var loadingMessage = document.getElementById('loading-message');
-        var splash = document.getElementById('splash');
+					function onPlayerReady(event) {
+						if (playlistId) {
+							player.loadPlaylist({
+								list: playlistId,
+								listType: 'playlist'
+							});
+						}
+						startProgressBarInterval();
+					}
+				}
 
-        var playlistSelector = document.getElementById('playlist-selector');
-        playlistSelector.addEventListener('change', function() {
-          var playlistId = playlistSelector.value;
+				function onYouTubeIframeAPIReady() {
+					createPlayer(null);
+				}
 
-          player.style.display = 'none';
-          loadingMessage.style.display = 'block';
+				document.getElementById('playlist-select').addEventListener('change', function () {
+					player.destroy();
+					createPlayer(this.value);
+					document.getElementById('play-pause').innerHTML = 'Play';
 
-          if (splash.style.display !== 'none') {
-            splash.style.display = 'none';
-        }
-
-        var embedUrl = "https://www.youtube.com/embed/videoseries?list=" + playlistId;
-        player.innerHTML = "<iframe width='640' height='360' src='" + embedUrl + "' frameborder='0' allowfullscreen></iframe>";
-        player.firstChild.onload = function() {
-            loadingMessage.style.display = 'none';
-            player.style.display = 'block';
-        };
+        // Hide the splash when a playlist is selected
+        document.getElementById('splash').style.display = 'none';
     });
-    </script>
+</script>
+
+
+<script>
+    //feature scripts
+
+    // Handle play/pause button clicks
+    document.getElementById('play-pause').addEventListener('click', function () {
+    	if (player.getPlayerState() == 1) {
+    		player.pauseVideo();
+    		this.innerHTML = 'Play';
+    	} else {
+    		player.playVideo();
+    		this.innerHTML = 'Pause';
+    	}
+    });
+
+    // Handle next button clicks
+    document.getElementById('next').addEventListener('click', function () {
+    	player.nextVideo();
+    });
+
+    // Handle previous button clicks
+    document.getElementById('previous').addEventListener('click', function () {
+    	player.previousVideo();
+    });
+
+    // Update the play/pause button text when the video state changes
+    function onPlayerStateChange(event) {
+    	if (event.data == YT.PlayerState.PLAYING) {
+    		document.getElementById('play-pause').innerHTML = 'Pause';
+    	} else if (event.data == YT.PlayerState.PAUSED) {
+    		document.getElementById('play-pause').innerHTML = 'Play';
+    	}
+    }
+
+    function startProgressBarInterval() {
+        setInterval(updateProgressBar, 1000)
+    }
+
+    // Update the progress bar as the video plays
+    function updateProgressBar() {
+    	if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
+    		var progress = (player.getCurrentTime() / player.getDuration()) * 100;
+    		document.getElementById('progress').style.width = progress + '%';
+    	}
+    }
+
+</script>
+
+
+</div>
 </body>
 </html>
+
