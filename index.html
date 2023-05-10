@@ -2,7 +2,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>YouTube Playlist Player</title>
+	<title>APOD not public</title>
+	<link rel="preload" href="media/splash_640.png" as="image">
+
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -92,96 +94,98 @@
 			max-width: 640px;
 			box-sizing: border-box;
 		}
-	    #scrubber {
-	        width: 9px;
-	        height: 15px;
-	        background-color: #4CAF50;
-	        position: absolute;
-	        top: -2px;
-	        left: -2;
-	        border-radius: 50%;
-	        cursor: pointer;
-	    }
+		#scrubber {
+			width: 9px;
+			height: 15px;
+			background-color: #4CAF50;
+			position: absolute;
+			top: -2px;
+			left: -2;
+			border-radius: 50%;
+			cursor: pointer;
+		}
 
 	</style>
 </head>
 <body>
 	<h1>not public: Oliver rehersal playlists</h1>
 	<p>This page uses javascript for best experience. If scripts are blocked try this <a href="alt.html">alternative</a><p>
-		<div class="container">
+	<div class="container">
 
-			<div id="playlist-selector-wrapper">
-				<select id="playlist-select">
-					<option value="">Choose a playlist</option>
-					<option value="PLL0ch6DEaWUE6uk5-wInLHVLTD6ctXo5V">Mate</option>
-					<option value="PLL0ch6DEaWUHnZ81CTlFwHV0GqEwFzEIs">Funeral</option>
-					<option value="PLL0ch6DEaWUHMjKD7D6VEfryB8HizSbZy">Food Glorious</option>
-					<option value="PLL0ch6DEaWUFt4xhFVZSAV1e0km2NyeUQ">Pickpockets!</option>
-					<option value="PLL0ch6DEaWUGuk5Xc2FesGbHLKWBtAqST">Oom Pah Pah</option>
-					<option value="PLL0ch6DEaWUGgzuRIKvE33ip3RJro5dAk">Consider Yourself</option>
-					<option value="PLL0ch6DEaWUFnDw23wiffiU8EMVuJajXM">Fine Life</option>
-					<option value="PLL0ch6DEaWUEjUBHZ3d508XCkqPzheadw">I'd Do Anything</option>
-					<option value="PLL0ch6DEaWUF3sRryAAON9Lm6hG3vzzn6">All Videos</option>
-				</select>
+		<div id="playlist-selector-wrapper">
+			<select id="playlist-select">
+				<option value="">Choose a playlist</option>
+				<option value="PLL0ch6DEaWUE6uk5-wInLHVLTD6ctXo5V">Mate</option>
+				<option value="PLL0ch6DEaWUHnZ81CTlFwHV0GqEwFzEIs">Funeral</option>
+				<option value="PLL0ch6DEaWUHMjKD7D6VEfryB8HizSbZy">Food Glorious</option>
+				<option value="PLL0ch6DEaWUFt4xhFVZSAV1e0km2NyeUQ">Pickpockets!</option>
+				<option value="PLL0ch6DEaWUGuk5Xc2FesGbHLKWBtAqST">Oom Pah Pah</option>
+				<option value="PLL0ch6DEaWUGgzuRIKvE33ip3RJro5dAk">Consider Yourself</option>
+				<option value="PLL0ch6DEaWUFnDw23wiffiU8EMVuJajXM">Fine Life</option>
+				<option value="PLL0ch6DEaWUEjUBHZ3d508XCkqPzheadw">I'd Do Anything</option>
+				<option value="PLL0ch6DEaWUF3sRryAAON9Lm6hG3vzzn6">All Videos</option>
+			</select>
+		</div>
+		<div class="player-container">
+			<div id="splash" style="background-image: url('media/splash_640.png'); width: 640px; height: 320px;">
+				<img src="media/splash_640.png" alt="Splash">
 			</div>
-			<div class="player-container">
-				<div id="splash">
-					<img src="media/splash_640.png" alt="Splash">
-				</div>
-				<div id="player"></div>
-			</div>
-<div id="progress-bar">
-    <div id="progress"></div>
-    <div id="scrubber"></div>
-</div>
+			<div id="player"></div>
+		</div>
+		<div id="progress-bar">
+			<div id="progress"></div>
+			<div id="scrubber"></div>
+		</div>
 
-			<button id="previous">Previous</button>
-			<button id="play-pause">Play</button>
-			<button id="next">Next</button>
-			<script src="https://www.youtube.com/iframe_api"></script>
-			<script>
-				var player;
+		<button id="previous">Previous</button>
+		<button id="play-pause">Play</button>
+		<button id="next">Next</button>
+	</div>
+</body>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+	var player;
 
-				function createPlayer(playlistId) {
-					player = new YT.Player('player', {
-						height: '360',
-						width: '640',
-						videoId: '',
-						playerVars: {
-							'controls': 0,
-							'showinfo': 0,
-							'modestbranding': 1,
-							'rel': 0 // Add this line to suppress related videos
-						},
-						events: {
-							'onReady': onPlayerReady,
-							'onStateChange': onPlayerStateChange
-						}
-					});
-
-					function onPlayerReady(event) {
-						if (playlistId) {
-							player.loadPlaylist({
-								list: playlistId,
-								listType: 'playlist'
-							});
-						}
-						startProgressBarInterval();
-					}
+	function createPlayer(playlistId) {
+		player = new YT.Player('player', {
+			height: '360',
+			width: '640',
+			videoId: '',
+			playerVars: {
+				'controls': 0,
+				'showinfo': 0,
+				'modestbranding': 1,
+					'rel': 0 // Add this line to suppress related videos
+				},
+				events: {
+					'onReady': onPlayerReady,
+					'onStateChange': onPlayerStateChange
 				}
+			});
 
-				function onYouTubeIframeAPIReady() {
-					createPlayer(null);
-				}
+		function onPlayerReady(event) {
+			if (playlistId) {
+				player.loadPlaylist({
+					list: playlistId,
+					listType: 'playlist'
+				});
+			}
+			startProgressBarInterval();
+		}
+	}
 
-				document.getElementById('playlist-select').addEventListener('change', function () {
-					player.destroy();
-					createPlayer(this.value);
-					document.getElementById('play-pause').innerHTML = 'Play';
+	function onYouTubeIframeAPIReady() {
+		createPlayer(null);
+	}
 
-        // Hide the splash when a playlist is selected
-        document.getElementById('splash').style.display = 'none';
-    });
+	document.getElementById('playlist-select').addEventListener('change', function () {
+		player.destroy();
+		createPlayer(this.value);
+		document.getElementById('play-pause').innerHTML = 'Play';
+
+// Hide the splash when a playlist is selected
+document.getElementById('splash').style.display = 'none';
+});
 </script>
 
 
@@ -220,33 +224,29 @@
 
     // Handle scrubber clicks
     document.getElementById('progress-bar').addEventListener('click', function (event) {
-        if (player && typeof player.getDuration === 'function' && event.target !== document.getElementById('scrubber')) {
-            var progressBarWidth = this.offsetWidth;
-            var clickPosition = event.offsetX;
-            var newPlaybackPosition = (clickPosition / progressBarWidth) * player.getDuration();
+    	if (player && typeof player.getDuration === 'function' && event.target !== document.getElementById('scrubber')) {
+    		var progressBarWidth = this.offsetWidth;
+    		var clickPosition = event.offsetX;
+    		var newPlaybackPosition = (clickPosition / progressBarWidth) * player.getDuration();
 
-            player.seekTo(newPlaybackPosition, true);
-        }
+    		player.seekTo(newPlaybackPosition, true);
+    	}
     });
 
     function startProgressBarInterval() {
-        setInterval(updateProgressBar, 1000)
+    	setInterval(updateProgressBar, 1000)
     }
 
     // Update the progress bar as the video plays
-function updateProgressBar() {
-    if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
-        var progress = (player.getCurrentTime() / player.getDuration()) * 100;
-        document.getElementById('progress').style.width = progress + '%';
-        document.getElementById('scrubber').style.left = progress + '%';
+    function updateProgressBar() {
+    	if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
+    		var progress = (player.getCurrentTime() / player.getDuration()) * 100;
+    		document.getElementById('progress').style.width = progress + '%';
+    		document.getElementById('scrubber').style.left = progress + '%';
+    	}
     }
-}
-
 
 </script>
 
-
-</div>
-</body>
 </html>
 
